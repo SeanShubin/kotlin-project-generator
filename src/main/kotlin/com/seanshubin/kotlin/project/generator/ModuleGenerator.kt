@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.project.generator
 
-class ModuleGenerator(private val names:ModuleNames, private val module: Module) {
+class ModuleGenerator(private val names:ModuleNames) {
 
 
     fun generate() {
@@ -9,7 +9,7 @@ class ModuleGenerator(private val names:ModuleNames, private val module: Module)
     }
 
     private fun generateBuild() {
-        FileUtil.writeLinesToFile(names.buildPath, module.moduleType.buildFileContent(names))
+        FileUtil.writeLinesToFile(names.buildPath, names.buildFileContent())
     }
 
     private fun generateFiles() {

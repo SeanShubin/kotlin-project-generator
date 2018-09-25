@@ -13,7 +13,7 @@ object DependencyInjection{
     private val frontEndCommon= Module(listOf("common","frontend"), CommonModule)
     private val backEndCommon= Module(listOf("common","backend"), CommonModule)
     private val genericCommon= Module(listOf("common","generic"), CommonModule)
-    private val moduleNames:List<Module> = listOf(
+    private val modules:List<Module> = listOf(
             frontEndEntry,
             backEndEntry,
             frontEndPlatform,
@@ -22,6 +22,6 @@ object DependencyInjection{
             backEndCommon,
             genericCommon
     )
-    private val parentGenerator:ParentGenerator = ParentGenerator(namesAndPaths, moduleNames)
+    private val parentGenerator:ParentGenerator = ParentGenerator(namesAndPaths, modules)
     val application:Runnable = ProjectGenerator(parentGenerator)
 }

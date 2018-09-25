@@ -13,5 +13,5 @@ class Names(homeEnv:String,
     val basePath: Path = localGithubRoot.resolve(name)
     val settingsPath: Path = basePath.resolve("settings.gradle")
     val buildPath: Path = basePath.resolve("build.gradle")
-    fun moduleNames(module:Module):ModuleNames = ModuleNames(this, module)
+    fun moduleNames(module:Module):ModuleNames = ModuleNames(this, module.nameParts, module.moduleType)
 }
