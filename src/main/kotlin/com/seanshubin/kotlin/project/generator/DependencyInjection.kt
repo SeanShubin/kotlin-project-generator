@@ -6,14 +6,14 @@ object DependencyInjection{
     private val nameParts = listOf("kotlin","generated", "multiplatform")
     private val githubRelative = listOf("github", "sean")
     private val namesAndPaths:Names = Names(homeEnv, prefixParts, nameParts, githubRelative)
-    private val frontEndEntry= listOf("js","app")
-    private val backEndEntry= listOf("jvm","app")
-    private val frontEndPlatform= listOf("js","frontend")
-    private val backEndPlatform= listOf("jvm", "backend")
-    private val frontEndCommon= listOf("common","frontend")
-    private val backEndCommon= listOf("common","backend")
-    private val genericCommon= listOf("common","generic")
-    private val moduleNames:List<List<String>> = listOf(
+    private val frontEndEntry= Module(listOf("js","app"), CommonModule)
+    private val backEndEntry= Module(listOf("jvm","app"), CommonModule)
+    private val frontEndPlatform= Module(listOf("js","frontend"), JsModule)
+    private val backEndPlatform= Module(listOf("jvm", "backend"), CommonModule)
+    private val frontEndCommon= Module(listOf("common","frontend"), CommonModule)
+    private val backEndCommon= Module(listOf("common","backend"), CommonModule)
+    private val genericCommon= Module(listOf("common","generic"), CommonModule)
+    private val moduleNames:List<Module> = listOf(
             frontEndEntry,
             backEndEntry,
             frontEndPlatform,
@@ -22,7 +22,6 @@ object DependencyInjection{
             backEndCommon,
             genericCommon
     )
-//    private val moduleNames:List<List<String>> = listOf(listOf("common"))
     private val parentGenerator:ParentGenerator = ParentGenerator(namesAndPaths, moduleNames)
     val application:Runnable = ProjectGenerator(parentGenerator)
 }

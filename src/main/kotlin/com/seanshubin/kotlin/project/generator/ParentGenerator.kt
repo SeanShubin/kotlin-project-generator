@@ -1,22 +1,22 @@
 package com.seanshubin.kotlin.project.generator
 
 class ParentGenerator(private val names:Names,
-                      private val moduleNames: List<List<String>>) {
+                      private val modules: List<Module>) {
 
     fun generate() {
         generateSettings()
         generateBuild()
-        moduleNames.forEach(::generateModule)
+        modules.forEach(::generateModule)
     }
 
-    private fun generateModule(moduleNameParts:List<String>){
-        val moduleGenerator = createModuleGenerator(moduleNameParts)
+    private fun generateModule(module:Module){
+        val moduleGenerator = createModuleGenerator(module)
         moduleGenerator.generate()
     }
 
-    private fun createModuleGenerator(moduleNameParts:List<String>):ModuleGenerator {
-        val moduleNames = names.moduleNames(moduleNameParts)
-        return ModuleGenerator(moduleNames)
+    private fun createModuleGenerator(module:Module):ModuleGenerator {
+        val moduleNames = names.moduleNames(module)
+        return ModuleGenerator(moduleNames, module)
     }
 
     private fun generateSettings() {
@@ -25,12 +25,12 @@ class ParentGenerator(private val names:Names,
 
     private fun settingsContent(): List<String> {
         val root = "rootProject.name = \"${names.name}\""
-        val includeLines = moduleNames.map(::generateIncludeLine)
+        val includeLines = modules.map(::generateIncludeLine)
         return listOf(root, "") + includeLines
     }
 
-    private fun generateIncludeLine(moduleNameParts: List<String>): String {
-        val moduleName = moduleNameParts.joinToString("-")
+    private fun generateIncludeLine(module: Module): String {
+        val moduleName = module.nameParts.joinToString("-")
         return "include \":$moduleName\""
     }
 

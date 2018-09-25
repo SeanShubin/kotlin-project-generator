@@ -4,7 +4,8 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 class ModuleNames(private val names: Names,
-                  private val moduleNameParts: List<String>) {
+                  private val module: Module) {
+    private val moduleNameParts:List<String> = module.nameParts
     private val name = moduleNameParts.joinToString("-")
     private val basePath = names.basePath.resolve(name)
     val buildPath: Path = basePath.resolve("build.gradle")
@@ -24,5 +25,4 @@ class ModuleNames(private val names: Names,
 
     private fun titleCase(parts: List<String>): String = parts.asSequence().map(::capitalize).joinToString("")
     private fun capitalize(s: String): String = s[0].toUpperCase() + s.substring(1)
-
 }

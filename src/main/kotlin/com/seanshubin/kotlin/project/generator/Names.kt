@@ -1,5 +1,6 @@
 package com.seanshubin.kotlin.project.generator
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 class Names(homeEnv:String,
@@ -9,8 +10,8 @@ class Names(homeEnv:String,
     val name = nameParts.joinToString("-")
     val group = (prefixParts + nameParts).joinToString(".")
     private val localGithubRoot = Paths.get(homeEnv, *githubRelative.toTypedArray())
-    val basePath = localGithubRoot.resolve(name)
-    val settingsPath = basePath.resolve("settings.gradle")
-    val buildPath = basePath.resolve("build.gradle")
-    fun moduleNames(moduleNameParts:List<String>):ModuleNames = ModuleNames(this, moduleNameParts)
+    val basePath: Path = localGithubRoot.resolve(name)
+    val settingsPath: Path = basePath.resolve("settings.gradle")
+    val buildPath: Path = basePath.resolve("build.gradle")
+    fun moduleNames(module:Module):ModuleNames = ModuleNames(this, module)
 }

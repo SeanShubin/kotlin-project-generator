@@ -1,6 +1,7 @@
 package com.seanshubin.kotlin.project.generator
 
-class ModuleGenerator(private val names: ModuleNames) {
+class ModuleGenerator(private val names:ModuleNames, private val module: Module) {
+
 
     fun generate() {
         generateBuild()
@@ -8,30 +9,7 @@ class ModuleGenerator(private val names: ModuleNames) {
     }
 
     private fun generateBuild() {
-        FileUtil.writeLinesToFile(names.buildPath, generateBuildContent())
-    }
-
-    private fun generateBuildContent(): List<String> {
-        return listOf(
-                "apply plugin: \"kotlin-platform-common\"",
-                "",
-                "archivesBaseName = \"${names.archivesBaseName}\"",
-                "",
-                "dependencies {",
-                "    compile libraries.kotlin_stdlib_common",
-                "    testCompile libraries.kotlin_test_annotations_common",
-                "    testCompile libraries.kotlin_test_common",
-                "}",
-                "",
-                "task sourcesJar(type: Jar) {",
-                "    classifier = \"sources\"",
-                "    from sourceSets.main.kotlin",
-                "}",
-                "",
-                "artifacts {",
-                "    archives sourcesJar",
-                "}",
-                "")
+        FileUtil.writeLinesToFile(names.buildPath, module.moduleType.buildFileContent(names))
     }
 
     private fun generateFiles() {
