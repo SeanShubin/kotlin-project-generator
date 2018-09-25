@@ -11,7 +11,7 @@ object DependencyInjection {
     private val backEndCommon = CommonModule(parent, listOf("common", "backend"), listOf(genericCommon))
     private val frontEndPlatform = JsModule(parent, listOf("js", "frontend"), listOf(frontEndCommon))
     private val backEndPlatform = CommonModule(parent, listOf("jvm", "backend"), listOf(backEndCommon))
-    private val frontEndEntry = CommonModule(parent, listOf("js", "app"), listOf(frontEndPlatform))
+    private val frontEndEntry = JsAppModule(parent, listOf("js", "app"), listOf(frontEndPlatform))
     private val backEndEntry = CommonModule(parent, listOf("jvm", "app"), listOf(backEndPlatform))
     private val modules: List<Module> = listOf(
             frontEndEntry,

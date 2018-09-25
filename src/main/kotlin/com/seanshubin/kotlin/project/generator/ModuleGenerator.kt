@@ -11,8 +11,10 @@ class ModuleGenerator(private val module: Module) {
     }
 
     private fun generateFiles() {
-        generateImplementation()
-        generateTest()
+        if (module.needsSampleTest) {
+            generateImplementation()
+            generateTest()
+        }
     }
 
     private fun generateImplementation() {
