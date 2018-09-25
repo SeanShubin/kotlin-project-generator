@@ -11,5 +11,4 @@ object FileUtil {
         Files.createDirectories(path.parent)
         Files.write(path, lines, charset)
     }
-
 }
