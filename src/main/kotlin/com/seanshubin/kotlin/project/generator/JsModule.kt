@@ -1,12 +1,17 @@
 package com.seanshubin.kotlin.project.generator
 
-object JsModule : ModuleType() {
-    override fun buildFileContent(names: ModuleNames): List<String> {
+class JsModule(parent: Parent,
+               moduleNameParts: List<String>,
+               dependencies: List<Module>) : Module(
+        parent,
+        moduleNameParts,
+        dependencies) {
+    override fun buildFileContent(): List<String> {
         return listOf(
                 "apply plugin: \"kotlin-platform-js\"",
                 "apply plugin: \"com.moowork.node\"",
                 "",
-                "archivesBaseName = \"${names.archivesBaseName}\"",
+                "archivesBaseName = \"${archivesBaseName}\"",
                 "",
                 "dependencies {",
                 "    expectedBy project(\":common-frontend\")",
@@ -59,4 +64,3 @@ object JsModule : ModuleType() {
                 "}")
     }
 }
-

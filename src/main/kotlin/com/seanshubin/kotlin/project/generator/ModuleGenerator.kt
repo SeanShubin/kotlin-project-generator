@@ -1,15 +1,13 @@
 package com.seanshubin.kotlin.project.generator
 
-class ModuleGenerator(private val names: ModuleNames) {
-
-
+class ModuleGenerator(private val module: Module) {
     fun generate() {
         generateBuild()
         generateFiles()
     }
 
     private fun generateBuild() {
-        FileUtil.writeLinesToFile(names.buildPath, names.buildFileContent())
+        FileUtil.writeLinesToFile(module.buildPath, module.buildFileContent())
     }
 
     private fun generateFiles() {
@@ -18,14 +16,14 @@ class ModuleGenerator(private val names: ModuleNames) {
     }
 
     private fun generateImplementation() {
-        FileUtil.writeLinesToFile(names.sampleImplementationPath, generateImplementationLines())
+        FileUtil.writeLinesToFile(module.sampleImplementationPath, generateImplementationLines())
     }
 
     private fun generateImplementationLines(): List<String> {
         val lines = listOf(
-                "package ${names.packageName}",
+                "package ${module.packageName}",
                 "",
-                "class ${names.implementationName} {",
+                "class ${module.implementationName} {",
                 "    fun greet(target:String):String = \"Hello, ${'$'}target!\"",
                 "}"
         )
@@ -33,20 +31,20 @@ class ModuleGenerator(private val names: ModuleNames) {
     }
 
     private fun generateTest() {
-        FileUtil.writeLinesToFile(names.sampleTestPath, generateTestLines())
+        FileUtil.writeLinesToFile(module.sampleTestPath, generateTestLines())
     }
 
     private fun generateTestLines(): List<String> {
         val lines = listOf(
-                "package ${names.packageName}",
+                "package ${module.packageName}",
                 "",
                 "import kotlin.test.Test",
                 "import kotlin.test.assertEquals",
                 "",
-                "class ${names.testName} {",
+                "class ${module.testName} {",
                 "    @Test",
                 "    fun greetTest() {",
-                "        val greeter = ${names.implementationName}()",
+                "        val greeter = ${module.implementationName}()",
                 "        assertEquals(\"Hello, world!\", greeter.greet(\"world\"))",
                 "    }",
                 "}"

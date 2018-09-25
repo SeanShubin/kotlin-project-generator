@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.project.generator
 
-class ParentGenerator(private val names: Names,
+class ParentGenerator(private val parent: Parent,
                       private val modules: List<Module>) {
 
     fun generate() {
@@ -15,33 +15,27 @@ class ParentGenerator(private val names: Names,
     }
 
     private fun createModuleGenerator(module: Module): ModuleGenerator {
-        val moduleNames = names.moduleNames(module)
-        return ModuleGenerator(moduleNames)
+        return ModuleGenerator(module)
     }
 
     private fun generateSettings() {
-        FileUtil.writeLinesToFile(names.settingsPath, settingsContent())
+        FileUtil.writeLinesToFile(parent.settingsPath, settingsContent())
     }
 
     private fun settingsContent(): List<String> {
-        val root = "rootProject.name = \"${names.name}\""
-        val includeLines = modules.map(::generateIncludeLine)
+        val root = "rootProject.name = \"${parent.name}\""
+        val includeLines = modules.map { it.includeLine }
         return listOf(root, "") + includeLines
     }
 
-    private fun generateIncludeLine(module: Module): String {
-        val moduleName = module.nameParts.joinToString("-")
-        return "include \":$moduleName\""
-    }
-
     private fun generateBuild() {
-        FileUtil.writeLinesToFile(names.buildPath, generateBuildContent())
+        FileUtil.writeLinesToFile(parent.buildPath, generateBuildContent())
     }
 
     private fun generateBuildContent(): List<String> {
         return listOf(
                 "allprojects {",
-                "    group \"${names.group}\"",
+                "    group \"${parent.group}\"",
                 "    version \"1.0.0-SNAPSHOT\"",
                 "}",
                 "",
