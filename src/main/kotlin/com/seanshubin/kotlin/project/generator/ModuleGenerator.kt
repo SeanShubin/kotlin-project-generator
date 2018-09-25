@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.project.generator
 
-class ModuleGenerator(private val names:ModuleNames) {
+class ModuleGenerator(private val names: ModuleNames) {
 
 
     fun generate() {

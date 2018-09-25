@@ -1,7 +1,7 @@
 package com.seanshubin.kotlin.project.generator
 
 object CommonModule : ModuleType() {
-    override fun buildFileContent(names:ModuleNames): List<String> = listOf(
+    override fun buildFileContent(names: ModuleNames): List<String> = listOf(
             "apply plugin: \"kotlin-platform-common\"",
             "",
             "archivesBaseName = \"${names.archivesBaseName}\"",
