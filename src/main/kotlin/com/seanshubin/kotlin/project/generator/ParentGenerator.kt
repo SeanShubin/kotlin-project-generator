@@ -6,16 +6,7 @@ class ParentGenerator(private val parent: Parent,
     fun generate() {
         generateSettings()
         generateBuild()
-        modules.forEach(::generateModule)
-    }
-
-    private fun generateModule(module: Module) {
-        val moduleGenerator = createModuleGenerator(module)
-        moduleGenerator.generate()
-    }
-
-    private fun createModuleGenerator(module: Module): ModuleGenerator {
-        return ModuleGenerator(module)
+        modules.forEach{it.generate()}
     }
 
     private fun generateSettings() {

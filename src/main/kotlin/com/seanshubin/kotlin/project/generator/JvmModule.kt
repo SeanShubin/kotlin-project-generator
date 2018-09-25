@@ -11,7 +11,7 @@ class JvmModule(parent: Parent,
         return listOf(
                 "apply plugin: \"kotlin-platform-jvm\"",
                 "",
-                "archivesBaseName = \"${archivesBaseName}\"",
+                "archivesBaseName = \"$archivesBaseName\"",
                 "",
                 "dependencies {") +
                 dependencyLines +
@@ -31,5 +31,8 @@ class JvmModule(parent: Parent,
                 )
     }
 
-    override val needsSampleTest: Boolean = true
+    override fun generateFiles() {
+        generateImplementation()
+        generateTest()
+    }
 }

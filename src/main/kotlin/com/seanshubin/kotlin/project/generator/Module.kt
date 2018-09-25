@@ -4,17 +4,17 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 abstract class Module(val parent: Parent,
-                      val moduleNameParts: List<String>,
+                      private val moduleNameParts: List<String>,
                       val dependencies: List<Module>) {
-    val name = moduleNameParts.joinToString("-")
+    private val name = moduleNameParts.joinToString("-")
     private val basePath = parent.basePath.resolve(name)
-    val buildPath: Path = basePath.resolve("build.gradle")
-    val implementationName: String = titleCase(moduleNameParts) + "Greeter"
-    val testName: String = implementationName + "Test"
-    val sampleImplementationPath = generateSourcePath("main", "$implementationName.kt")
-    val sampleTestPath = generateSourcePath("test", "$testName.kt")
-    val packageName = (parent.prefixParts + parent.nameParts + moduleNameParts).joinToString(".")
-    val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
+    private val buildPath: Path = basePath.resolve("build.gradle")
+    private val implementationName: String = titleCase(moduleNameParts) + "Greeter"
+    private val testName: String = implementationName + "Test"
+    private val sampleImplementationPath = generateSourcePath("main", "$implementationName.kt")
+    private val sampleTestPath = generateSourcePath("test", "$testName.kt")
+    private val packageName = (parent.prefixParts + parent.nameParts + moduleNameParts).joinToString(".")
+    protected val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
     val includeLine = "include \":$name\""
     val dependencyLine: String = "    compile project(\":$name\")"
 
@@ -28,6 +28,52 @@ abstract class Module(val parent: Parent,
 
     private fun titleCase(parts: List<String>): String = parts.asSequence().map(::capitalize).joinToString("")
     private fun capitalize(s: String): String = s[0].toUpperCase() + s.substring(1)
-    abstract fun buildFileContent(): List<String>
-    abstract val needsSampleTest: Boolean
+    protected abstract fun buildFileContent(): List<String>
+    protected abstract fun generateFiles()
+
+    fun generate() {
+        generateBuild()
+        generateFiles()
+    }
+
+    private fun generateBuild() {
+        FileUtil.writeLinesToFile(buildPath, buildFileContent())
+    }
+
+    protected fun generateImplementation() {
+        FileUtil.writeLinesToFile(sampleImplementationPath, generateImplementationLines())
+    }
+
+    private fun generateImplementationLines(): List<String> {
+        val lines = listOf(
+                "package ${packageName}",
+                "",
+                "class ${implementationName} {",
+                "    fun greet(target:String):String = \"Hello, ${'$'}target!\"",
+                "}"
+        )
+        return lines
+    }
+
+    protected fun generateTest() {
+        FileUtil.writeLinesToFile(sampleTestPath, generateTestLines())
+    }
+
+    private fun generateTestLines(): List<String> {
+        val lines = listOf(
+                "package $packageName",
+                "",
+                "import kotlin.test.Test",
+                "import kotlin.test.assertEquals",
+                "",
+                "class $testName {",
+                "    @Test",
+                "    fun greetTest() {",
+                "        val greeter = $implementationName()",
+                "        assertEquals(\"Hello, world!\", greeter.greet(\"world\"))",
+                "    }",
+                "}"
+        )
+        return lines
+    }
 }

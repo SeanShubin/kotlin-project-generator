@@ -66,5 +66,8 @@ class JsModule(parent: Parent,
                         "}")
     }
 
-    override val needsSampleTest: Boolean = true
+    override fun generateFiles() {
+        generateImplementation()
+        generateTest()
+    }
 }

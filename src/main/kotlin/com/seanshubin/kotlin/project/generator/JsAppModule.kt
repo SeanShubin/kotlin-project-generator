@@ -61,5 +61,6 @@ class JsAppModule(parent: Parent,
                 )
     }
 
-    override val needsSampleTest: Boolean = false
+    override fun generateFiles() {
+    }
 }
