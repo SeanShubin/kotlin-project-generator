@@ -3,16 +3,16 @@ package com.seanshubin.kotlin.project.generator
 object DependencyInjection {
     private val homeEnv = System.getenv("HOME")
     private val prefixParts = listOf("com", "seanshubin")
-    private val nameParts = listOf("kotlin", "generated", "multiplatform")
-    private val githubRelative = listOf("github", "sean")
+    private val nameParts = listOf("condorcet")
+    private val githubRelative = listOf("github", "generated")
     private val parent: Parent = Parent(homeEnv, prefixParts, nameParts, githubRelative)
     private val genericCommon = CommonModule(parent, listOf("common", "generic"), emptyList())
     private val frontEndCommon = CommonModule(parent, listOf("common", "frontend"), listOf(genericCommon))
     private val backEndCommon = CommonModule(parent, listOf("common", "backend"), listOf(genericCommon))
     private val frontEndPlatform = JsModule(parent, listOf("js", "frontend"), listOf(frontEndCommon))
-    private val backEndPlatform = CommonModule(parent, listOf("jvm", "backend"), listOf(backEndCommon))
+    private val backEndPlatform = JvmModule(parent, listOf("jvm", "backend"), listOf(backEndCommon))
     private val frontEndEntry = JsAppModule(parent, listOf("js", "app"), listOf(frontEndPlatform))
-    private val backEndEntry = CommonModule(parent, listOf("jvm", "app"), listOf(backEndPlatform))
+    private val backEndEntry = JvmAppModule(parent, listOf("jvm", "app"), listOf(backEndPlatform))
     private val modules: List<Module> = listOf(
             frontEndEntry,
             backEndEntry,
