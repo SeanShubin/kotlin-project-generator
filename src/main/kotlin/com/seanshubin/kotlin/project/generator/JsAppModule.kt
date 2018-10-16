@@ -62,5 +62,7 @@ class JsAppModule(parent: Parent,
     }
 
     override fun generateFiles() {
+        generateImplementation()
+        generateMain()
     }
 }

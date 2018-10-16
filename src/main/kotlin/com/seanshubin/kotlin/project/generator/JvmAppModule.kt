@@ -26,5 +26,7 @@ class JvmAppModule(parent: Parent,
     }
 
     override fun generateFiles() {
+        generateImplementation()
+        generateMain()
     }
 }

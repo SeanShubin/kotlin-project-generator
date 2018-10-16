@@ -11,8 +11,10 @@ abstract class Module(val parent: Parent,
     private val buildPath: Path = basePath.resolve("build.gradle")
     private val implementationName: String = titleCase(moduleNameParts) + "Greeter"
     private val testName: String = implementationName + "Test"
+    private val mainName: String = "Main"
     private val sampleImplementationPath = generateSourcePath("main", "$implementationName.kt")
     private val sampleTestPath = generateSourcePath("test", "$testName.kt")
+    private val sampleMainPath = generateSourcePath("main", "$mainName.kt")
     private val packageName = (parent.prefixParts + parent.nameParts + moduleNameParts).joinToString(".")
     protected val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
     val includeLine = "include \":$name\""
@@ -72,6 +74,22 @@ abstract class Module(val parent: Parent,
                 "        val greeter = $implementationName()",
                 "        assertEquals(\"Hello, world!\", greeter.greet(\"world\"))",
                 "    }",
+                "}"
+        )
+        return lines
+    }
+
+    protected fun generateMain() {
+        FileUtil.writeLinesToFile(sampleMainPath, generateMainLines())
+    }
+
+    private fun generateMainLines(): List<String> {
+        val lines = listOf(
+                "package ${packageName}",
+                "",
+                "fun main(arguments: Array<String>) {",
+                "    val greeter = $implementationName()",
+                "    println(greeter.greet(\"world\"))",
                 "}"
         )
         return lines
