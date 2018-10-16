@@ -1,0 +1,6 @@
+[] common module test js
+[] common module test jvm
+[] js module test
+[] jvm module test
+[] run js module
+[] run main module
