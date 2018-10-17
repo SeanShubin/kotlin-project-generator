@@ -13,5 +13,5 @@ class Parent(homeEnv: String,
     val basePath: Path = localGithubRoot.resolve(name)
     val settingsPath: Path = basePath.resolve("settings.gradle")
     val buildPath: Path = basePath.resolve("build.gradle")
-    val gitIgnorePath:Path = basePath.resolve(".gitignore")
+    val gitIgnorePath: Path = basePath.resolve(".gitignore")
 }

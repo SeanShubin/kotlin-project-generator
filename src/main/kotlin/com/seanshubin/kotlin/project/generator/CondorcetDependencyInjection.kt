@@ -22,6 +22,6 @@ object CondorcetDependencyInjection {
             backEndCommon,
             genericCommon
     )
-    private val parentGenerator: ParentGenerator = ParentGenerator(parent, modules)
+    private val parentGenerator: ParentGenerator = ParentGenerator(parent, modules, versionsForNow)
     val application: Runnable = ProjectGenerator(parentGenerator)
 }
