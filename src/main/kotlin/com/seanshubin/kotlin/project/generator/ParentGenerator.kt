@@ -6,6 +6,7 @@ class ParentGenerator(private val parent: Parent,
     fun generate() {
         generateSettings()
         generateBuild()
+        generateGitIgnore()
         modules.forEach { it.generate() }
     }
 
@@ -73,5 +74,16 @@ class ParentGenerator(private val parent: Parent,
                 "}",
                 "")
 
+    }
+
+    private fun generateGitIgnore() {
+        val lines = listOf(
+                "**/.gradle/",
+                "**/build/",
+                "**/node_modules/",
+                ".idea/",
+                "**/out/",
+                "*.iml")
+        FileUtil.writeLinesToFile(parent.gitIgnorePath, lines)
     }
 }
