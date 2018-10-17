@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.project.generator
 
-object DependencyInjection {
+object CondorcetDependencyInjection {
     private val homeEnv = System.getenv("HOME")
     private val prefixParts = listOf("com", "seanshubin")
     private val nameParts = listOf("condorcet")
