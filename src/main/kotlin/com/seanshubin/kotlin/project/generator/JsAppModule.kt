@@ -2,12 +2,12 @@ package com.seanshubin.kotlin.project.generator
 
 class JsAppModule(parent: Parent,
                   moduleNameParts: List<String>,
-                  dependencies: List<Module>) : Module(
+                  dependencies: List<Module>) : PlatformModule(
         parent,
         moduleNameParts,
         dependencies) {
     override fun buildFileContent(): List<String> {
-        val dependencyLines = dependencies.map { it.dependencyLine }
+        val dependencyLines = dependencies.map { it.dependencyLine(this) }
         return listOf(
                 "import com.google.javascript.jscomp.CompilerOptions",
                 "",

@@ -2,12 +2,12 @@ package com.seanshubin.kotlin.project.generator
 
 class JsModule(parent: Parent,
                moduleNameParts: List<String>,
-               dependencies: List<Module>) : Module(
+               dependencies: List<Module>) : PlatformModule(
         parent,
         moduleNameParts,
         dependencies) {
     override fun buildFileContent(): List<String> {
-        val dependencyLines = dependencies.map { it.dependencyLine }
+        val dependencyLines = dependencies.map { it.dependencyLine(this) }
         return listOf(
                 "apply plugin: \"kotlin-platform-js\"",
                 "apply plugin: \"com.moowork.node\"",

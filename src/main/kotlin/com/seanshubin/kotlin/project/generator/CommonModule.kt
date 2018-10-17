@@ -7,7 +7,7 @@ class CommonModule(parent: Parent,
         moduleNameParts,
         dependencies) {
     override fun buildFileContent(): List<String> {
-        val dependencyLines = dependencies.map { it.dependencyLine }
+        val dependencyLines = dependencies.map { it.dependencyLine(this) }
         return listOf(
                 "apply plugin: \"kotlin-platform-common\"",
                 "",
@@ -31,6 +31,12 @@ class CommonModule(parent: Parent,
                         "}"
                 )
     }
+
+    override fun dependsWord(client: Module): String =
+            when (client) {
+                is PlatformModule -> "expectedBy"
+                else -> "compile"
+            }
 
     override fun generateFiles() {
         generateImplementation()

@@ -18,7 +18,8 @@ abstract class Module(val parent: Parent,
     private val packageName = (parent.prefixParts + parent.nameParts + moduleNameParts).joinToString(".")
     protected val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
     val includeLine = "include \":$name\""
-    val dependencyLine: String = "    compile project(\":$name\")"
+    protected abstract fun dependsWord(client: Module): String
+    fun dependencyLine(client: Module): String = "    ${dependsWord(client)} project(\":$name\")"
 
     private fun generateSourcePath(dirName: String, fileName: String): Path {
         val pathParts: List<String> =

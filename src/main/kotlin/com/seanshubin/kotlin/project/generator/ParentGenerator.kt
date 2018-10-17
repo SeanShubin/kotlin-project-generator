@@ -6,7 +6,7 @@ class ParentGenerator(private val parent: Parent,
     fun generate() {
         generateSettings()
         generateBuild()
-        modules.forEach{it.generate()}
+        modules.forEach { it.generate() }
     }
 
     private fun generateSettings() {
