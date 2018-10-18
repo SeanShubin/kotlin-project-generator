@@ -16,6 +16,7 @@ abstract class Module(val parent: Parent,
     private val sampleTestPath = generateSourcePath("test", "$testName.kt")
     private val sampleMainPath = generateSourcePath("main", "$mainName.kt")
     private val packageName = (parent.prefixParts + parent.nameParts + moduleNameParts).joinToString(".")
+    protected val qualifiedMainName = "$packageName.$mainName"
     protected val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
     val includeLine = "include \":$name\""
     protected abstract fun dependsWord(client: Module): String

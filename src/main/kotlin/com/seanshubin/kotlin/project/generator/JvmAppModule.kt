@@ -22,6 +22,13 @@ class JvmAppModule(parent: Parent,
                         "    main = \"jvm.JvmAppKt\"",
                         "    classpath = sourceSets.main.runtimeClasspath",
                         "    ignoreExitValue(true)",
+                        "}",
+                        "",
+                        "jar {",
+                        "    manifest {",
+                        "        attributes 'Main-Class': '${qualifiedMainName}Kt'",
+                        "    }",
+                        "    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }",
                         "}")
     }
 

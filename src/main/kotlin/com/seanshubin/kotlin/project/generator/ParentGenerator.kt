@@ -2,7 +2,7 @@ package com.seanshubin.kotlin.project.generator
 
 class ParentGenerator(private val parent: Parent,
                       private val modules: List<Module>,
-                      private val versions:Versions) {
+                      private val versions: Versions) {
 
     fun generate() {
         generateSettings()
