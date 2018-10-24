@@ -9,8 +9,8 @@ object SampleDependencyInjection {
     private val genericCommon = CommonModule(parent, listOf("common", "generic"), emptyList())
     private val frontEndCommon = CommonModule(parent, listOf("common", "frontend"), listOf(genericCommon))
     private val backEndCommon = CommonModule(parent, listOf("common", "backend"), listOf(genericCommon))
-    private val frontEndPlatform = JsModule(parent, listOf("js", "frontend"), listOf(frontEndCommon))
-    private val backEndPlatform = JvmModule(parent, listOf("jvm", "backend"), listOf(backEndCommon))
+    private val frontEndPlatform = JsModule(parent, listOf("js", "frontend"), listOf(genericCommon, frontEndCommon))
+    private val backEndPlatform = JvmModule(parent, listOf("jvm", "backend"), listOf(genericCommon, backEndCommon))
     private val frontEndEntry = JsAppModule(parent, listOf("js", "app"), listOf(frontEndPlatform))
     private val backEndEntry = JvmAppModule(parent, listOf("jvm", "app"), listOf(backEndPlatform))
     private val modules: List<Module> = listOf(
