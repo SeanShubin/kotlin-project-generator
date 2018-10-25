@@ -8,6 +8,7 @@ class JsAppModule(parent: Parent,
         dependencies) {
     override fun buildFileContent(): List<String> {
         val dependencyLines = dependencies.map { it.dependencyLine(this) }
+        val jsDependencyLines = dependencies.map(::jsDependencyLine)
         return listOf(
                 "import com.google.javascript.jscomp.CompilerOptions",
                 "",
@@ -29,9 +30,9 @@ class JsAppModule(parent: Parent,
                         "",
                         "combineJs {",
                         "    source = [",
-                        "            \"${'$'}{buildDir}/kotlin-js-min/main/kotlin.js\",",
-                        "            \"${'$'}{buildDir}/kotlin-js-min/main/kotlin-multiplatform-recipes-js.js\",",
-                        "            \"${'$'}{buildDir}/kotlin-js-min/main/js-app.js\"",
+                        "            \"${'$'}{buildDir}/kotlin-js-min/main/kotlin.js\",") +
+                jsDependencyLines +
+                listOf("            \"${'$'}{buildDir}/kotlin-js-min/main/$name.js\"",
                         "    ]",
                         "    dest = file(\"${'$'}{temporaryDir}/${'$'}{archivesBaseName}-combined.js\")",
                         "}",
@@ -60,6 +61,9 @@ class JsAppModule(parent: Parent,
                         "}"
                 )
     }
+
+    private fun jsDependencyLine(module: Module): String =
+            "            \"${'$'}{buildDir}/kotlin-js-min/main/${module.archivesBaseName}.js\","
 
     override fun generateFiles() {
         generateImplementation()

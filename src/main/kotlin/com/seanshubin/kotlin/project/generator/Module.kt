@@ -6,7 +6,7 @@ import java.nio.file.Paths
 abstract class Module(val parent: Parent,
                       private val moduleNameParts: List<String>,
                       val dependencies: List<Module>) {
-    private val name = moduleNameParts.joinToString("-")
+    val name = moduleNameParts.joinToString("-")
     private val basePath = parent.basePath.resolve(name)
     private val buildPath: Path = basePath.resolve("build.gradle")
     private val implementationName: String = titleCase(moduleNameParts) + "Greeter"
@@ -17,7 +17,8 @@ abstract class Module(val parent: Parent,
     private val sampleMainPath = generateSourcePath("main", "$mainName.kt")
     private val packageName = (parent.prefixParts + parent.nameParts + moduleNameParts).joinToString(".")
     protected val qualifiedMainName = "$packageName.$mainName"
-    protected val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
+//    protected val archivesBaseName = (parent.nameParts + moduleNameParts).joinToString("-")
+    val archivesBaseName = name
     val includeLine = "include \":$name\""
     protected abstract fun dependsWord(client: Module): String
     fun dependencyLine(client: Module): String = "    ${dependsWord(client)} project(\":$name\")"

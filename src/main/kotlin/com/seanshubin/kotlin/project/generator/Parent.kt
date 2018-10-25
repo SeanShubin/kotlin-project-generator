@@ -6,11 +6,12 @@ import java.nio.file.Paths
 class Parent(homeEnv: String,
              val prefixParts: List<String>,
              val nameParts: List<String>,
-             githubRelative: List<String>) {
+             githubRelative: List<String>,
+             basePathName:String? = null) {
     val name = nameParts.joinToString("-")
     val group = (prefixParts + nameParts).joinToString(".")
     private val localGithubRoot = Paths.get(homeEnv, *githubRelative.toTypedArray())
-    val basePath: Path = localGithubRoot.resolve(name)
+    val basePath: Path = localGithubRoot.resolve(basePathName ?: name)
     val settingsPath: Path = basePath.resolve("settings.gradle")
     val buildPath: Path = basePath.resolve("build.gradle")
     val gitIgnorePath: Path = basePath.resolve(".gitignore")
